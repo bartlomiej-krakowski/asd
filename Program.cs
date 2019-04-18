@@ -5,66 +5,70 @@ namespace ConsoleApplication1
 {
     class Program
     {
-        static int[] tablica(int size)
+
+        static int[] array(int size)
         {
-            int[] tablica_rand = new int[size];
+            int[] radomArray = new int[size];
             Random random = new Random();
             for (int i = 0; i < size; i++)
             {
-                tablica_rand[i] = random.Next(100000);
+                radomArray[i] = random.Next(100000);
             }
-            return tablica_rand;
+            return radomArray;
         }
-        static void wyszukiwanie(int length)
+
+        static void search(int length)
         {
-            int[] T = new int[length];
-            T = tablica(length);
+            int[] time = new int[length];
+            time = array(length);
             for (int i = 0; i < length; i++)
             {
-                Console.Write("{0} ", T[i]);
-
+                Console.Write($"{time[i]}");
             }
+
             Console.WriteLine();
             int s;
             Random r = new Random();
             s = r.Next(100000);
-            bool znaleziona = false;
+            bool found = false;
             for (int i = 0; i < length; i++)
             {
-                if (T[i] == s)
+                if (time[i] == s)
                 {
-                    Console.WriteLine("ta liczba jest na {0} miejscu", i + 1);
-                    znaleziona = true;
+                    Console.WriteLine($"Index: {i + 1}");
+                    found = true;
                     break;
                 }
             }
-            if (!znaleziona) Console.WriteLine("nie ma jej tutaj :-(");
+            if (!found) Console.WriteLine("Not found");
             return;
         }
-        static int[] posortowana(int length)
+
+        static int[] sortedArray(int length)
         {
-            int[] T = new int[length];
-            T = tablica(length);
+            int[] time = new int[length];
+            time = array(length);
             int swap;
 
             for (int i = 0; i < length; i++)
             {
                 for (int j = 0; j < length; j++)
                 {
-                    if (T[i] < T[j])
+                    if (time[i] < time[j])
                     {
-                        swap = T[i];
-                        T[i] = T[j];
-                        T[j] = swap;
+                        swap = time[i];
+                        time[i] = time[j];
+                        time[j] = swap;
                     }
                 }
             }
-            return T;
+            return time;
         }
-        static void binarne(int length)
+
+        static void binarySearch(int length)
         {
-            int[] T = new int[length];
-            T = posortowana(length);
+            int[] time = new int[length];
+            time = sortedArray(length);
             Random r = new Random();
             int s;
             s = r.Next(268435456);
@@ -73,66 +77,63 @@ namespace ConsoleApplication1
 
             while (len != 0)
             {
-
-                if (T[n] == s) { Console.WriteLine("ta liczba jest na {0} miejscu", n + 1); break; }
-                else if (T[n] < s)
+                if (time[n] == s) {
+                    Console.WriteLine($"Index: {n + 1}");
+                    break;
+                }
+                else if (time[n] < s)
                 {
                     n += len - 1;
                 }
-                else if (T[n] > s)
+                else if (time[n] > s)
                 {
                     n -= len;
                 }
                 len = len / 2 + 1;
-
             }
             return;
         }
+
         static void Main(string[] args)
         {
-            using (StreamWriter writer = new StreamWriter("linioowe.txt"))
+            using (StreamWriter writer = new StreamWriter("linearSearch.txt"))
             {
 
                 writer.WriteLine("n t");
-                long milisekundy;
+
                 for (int i = 0; i < 100000; i++)
                 {
 
                     if (Console.KeyAvailable) break;
-                    DateTime teraz = DateTime.Now;
+                    DateTime now = DateTime.Now;
                     {
-                        wyszukiwanie(i);
+                        search(i);
                     }
-                    TimeSpan zaraz = DateTime.Now - teraz;
+                    TimeSpan difference = DateTime.Now - now;
 
-
-                    writer.WriteLine("{0} {1}", i, zaraz.TotalMilliseconds);
-
-
+                    writer.WriteLine($"{i} {difference.TotalMilliseconds}");
 
                 }
 
             }
-            using (StreamWriter bin = new StreamWriter("binarne.txt"))
+
+
+            using (StreamWriter bin = new StreamWriter("binarySearch.txt"))
             {
                 bin.WriteLine("n t");
-                long milisekundy;
                 for (int i = 0; i < 100000; i++)
                 {
                     if (Console.KeyAvailable) break;
-                    DateTime teraz = DateTime.Now;
-                    {
-                        binarne(i);
-                    }
-                    TimeSpan zaraz = DateTime.Now - teraz;
+                    DateTime now = DateTime.Now;
+                    binarySearch(i);
+                    TimeSpan difference = DateTime.Now - now;
 
-
-                    bin.WriteLine("{0} {1}", i, zaraz.TotalMilliseconds);
-
+                    bin.WriteLine($"{i} {difference.TotalMilliseconds}");
 
                 }
 
             }
+
         }
     }
 }
