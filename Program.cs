@@ -129,7 +129,6 @@ namespace ConsoleApplication1
                     TimeSpan difference = DateTime.Now - now;
 
                     bin.WriteLine($"{i} {difference.TotalMilliseconds}");
-
                 }
 
             }
